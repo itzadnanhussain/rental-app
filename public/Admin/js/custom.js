@@ -66,7 +66,7 @@ $('.file-form').submit(function (e) {
                     }, 2500)
                     break;
                 ///////////////////
-                case 'errors': 
+                case 'errors':
                     res.message.forEach(function (error) {
                         if (error[0] == 'password') {
                             $('.input-group-error').show();
@@ -144,15 +144,15 @@ $('.simple-form').submit(function (e) {
                     break;
                 ///////////////////
                 case 'errors':
-                    
-                   res.message.forEach(function (error) {
-                   if (error[0] == 'password') {
-                   $('.input-group-error').show();
-                   $('.input-group-error').text(error[1]);
-                   } else {
-                   $('[name=' + error[0] + ']').parent().append('<span class=form-error>' + error[1] +'</span>');
-                   }
-                   })
+
+                    res.message.forEach(function (error) {
+                        if (error[0] == 'password') {
+                            $('.input-group-error').show();
+                            $('.input-group-error').text(error[1]);
+                        } else {
+                            $('[name=' + error[0] + ']').parent().append('<span class=form-error>' + error[1] + '</span>');
+                        }
+                    })
                     break;
             }
         },
@@ -166,13 +166,62 @@ $('.editor-form').submit(function (e) {
     e.stopPropagation();
     var formData = new FormData(this);
     var url = $(this).attr('action');
-    // formData.append("summernote", $('#summernote').text());
+    formData.append("content", $('.summernote').summernote('code'));
     $.ajax({
         url: url,
         type: 'POST',
         data: formData,
         success: function (data) {
-            alert(data)
+            let res = JSON.parse(data);
+            switch (res.code) {
+
+                case 'success':
+                    $('.alert-success').show();
+                    $('.alert-success').html(res.message);
+                    setTimeout(function () {
+                        $('.alert-success').hide();
+                        $('.alert-success').html('');
+                    }, 2500)
+
+                    break;
+                /////////////////  
+                case 'success_url':
+                    $('.alert-success').show();
+                    $('.alert-success').html(res.message);
+                    setTimeout(function () {
+                        window.location.href = res.redirect_url;
+                    }, 2500)
+
+                    break;
+                //////////////////
+                case 'warning':
+                    $('.alert-warning').show();
+                    $('.alert-warning').html(res.message);
+                    setTimeout(function () {
+                        $('.alert-warning').hide();
+                    }, 2500)
+                    break;
+                ///////////////////
+                case 'warning_url':
+                    $('.alert-warning').show();
+                    $('.alert-warning').html(res.message);
+                    setTimeout(function () {
+                        window.location.href = res.redirect_url;
+                    }, 2500)
+                    break;
+                ///////////////////
+                case 'errors':
+
+                    res.message.forEach(function (error) {
+                        if (error[0] == 'password') {
+                            $('.input-group-error').show();
+                            $('.input-group-error').text(error[1]);
+                        } else {
+                            $('[name=' + error[0] + ']').parent().append('<span class=form-error>' + error[1] + '</span>');
+                        }
+                    })
+                    break;
+            }
         },
         processData: false,
         contentType: false,
@@ -183,6 +232,7 @@ $('.editor-form').submit(function (e) {
 ///error hide process code
 $(document).keypress(function (e) {
     $('.error').hide();
+    $('.form-error').hide();
 });
 
 
@@ -240,12 +290,55 @@ function delete_user(id) {
 
     }
 }
+
+
 ///delete_category
 function delete_category(id) {
     if (confirm('Are you sure you want to delete this record?')) {
         $.ajax({
             type: 'POST',
             url: 'delete_category_process',
+            data:
+            {
+                'id': id,
+
+            },
+            dataType: 'html',
+            success: function (data) {
+                let res = JSON.parse(data);
+                switch (res.code) {
+                    case 'success':
+                        alert(res.message);
+                        // $('#show').trigger('click');
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 500)
+
+                        break;
+
+                    case 'warning':
+                        alert(res.message);
+                        // setTimeout(function () {
+
+                        // }, 2500)
+                        break;
+
+
+
+                }
+            },
+        });
+
+    }
+}
+
+
+///delete_email_temp
+function delete_email_temp(id) {
+    if (confirm('Are you sure you want to delete this record?')) {
+        $.ajax({
+            type: 'POST',
+            url: 'delete_email_temp_process',
             data:
             {
                 'id': id,

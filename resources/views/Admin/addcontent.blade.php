@@ -6,11 +6,15 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Add Page Content</h4>
+                      <!-- success message -->
+                      <div class="alert alert-success" id="alert-success" style="display: none;" role="alert"></div>
+                    <!-- warning message -->
+                    <div class="alert alert-warning" id="alert-warning" style="display: none;" role="alert">
+
+                    </div>
 
                     <form class="editor-form" action="<?php echo SERVER_ROOT_PATH.'admin/add_content_process' ?>" enctype="multipart/form-data">
-
-
-
+ 
                         <div class="form-group">
                             <label for="exampleSelectGender">Select Page</label>
                             <select class="form-control" name="page_name" id="exampleSelectGender">
@@ -34,7 +38,7 @@
 
                         <div class="form-group">
                             <label for="exampleTextarea1">Textarea</label>
-                            <textarea class="form-control" name="content" id="summernote" rows="4"></textarea>
+                            <textarea class="form-control summernote" rows="4"></textarea>
                         </div>
                         <input type="submit" class="btn btn-primary mr-2" value="Submit"> 
                         <button class="btn btn-light">Cancel</button>

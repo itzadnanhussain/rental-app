@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 
 class AdminDashboard extends Controller
 {
-
     ///load_dashboard
     public function load_dashboard()
     {

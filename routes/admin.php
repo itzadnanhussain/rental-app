@@ -52,6 +52,7 @@ Route::post('admin/delete_user_process', [ManageUsers::class,'delete_user_proces
 
 ///edit_user
 Route::get('admin/edit_user/{id}', [ManageUsers::class,'edit_user']);
+Route::post('admin/update_user_process', [ManageUsers::class,'update_user_process']);
 
 
 
@@ -62,6 +63,15 @@ Route::get('admin/content_list', [ManageContent::class, 'load_content_list']);
 ///add_content
 Route::get('admin/add_content', [ManageContent::class, 'add_content']);
 Route::post('admin/add_content_process', [ManageContent::class, 'add_content_process']);
+
+
+///edit_content
+Route::get('admin/edit_content/{id}', [ManageContent::class, 'edit_content']);
+Route::post('admin/update_content_process', [ManageContent::class, 'update_content_process']);
+
+///delete_content_process
+Route::post('admin/delete_content_process', [ManageContent::class,'delete_content_process']);
+
 
 
 
@@ -78,12 +88,15 @@ Route::get('admin/category_list', [ManageCategory::class, 'load_category_list'])
 Route::get('admin/add_category', [ManageCategory::class, 'add_category']);
 Route::post('admin/add_category_process', [ManageCategory::class, 'add_category_process']);
 
+
+///edit_content
+Route::get('admin/edit_category/{id}', [ManageCategory::class, 'edit_category']);
+Route::post('admin/update_category_process', [ManageCategory::class, 'update_category_process']);
+
 ///delete_category_process
 Route::post('admin/delete_category_process', [ManageCategory::class,'delete_category_process']);
 
-///edit_user
-Route::get('admin/edit_user/{id}', [ManageCategory::class,'edit_user']);
-
+ 
 
 
 ///**********************Property Management************************ */
@@ -101,5 +114,18 @@ Route::get('admin/review_list', [ManageReview::class, 'load_review_list']);
 
 
 ///**********************Email Management************************ */
-///load_email_list
-Route::get('admin/email_list', [ManageEmail::class, 'load_email_list']);
+///load_email_temp_list
+Route::get('admin/email_temp_list', [ManageEmail::class, 'load_email_temp_list']);
+
+
+///add_email_temp
+Route::get('admin/add_email_temp', [ManageEmail::class, 'add_email_temp']);
+Route::post('admin/add_email_temp_process', [ManageEmail::class, 'add_email_temp_process']);
+
+
+///edit_email_temp
+Route::get('admin/edit_email_temp/{id}', [ManageEmail::class, 'edit_email_temp']);
+Route::post('admin/update_email_temp_process', [ManageEmail::class, 'update_email_temp_process']);
+
+///delete_email_temp_process
+Route::post('admin/delete_email_temp_process', [ManageEmail::class,'delete_email_temp_process']);

@@ -8,7 +8,9 @@
                     <h4 class="card-title">content</h4>
                     <div class="row grid-margin">
                         <div class="col-12">
-                            <a type="button" href="<?php echo SERVER_ROOT_PATH.'admin/add_content'; ?>" class="btn btn-primary btn-rounded btn-fw" style="float: right;">New
+                            <a type="button"
+                                href="<?php echo SERVER_ROOT_PATH.'admin/add_content'; ?>"
+                                class="btn btn-primary btn-rounded btn-fw" style="float: right;">New
                                 Record</a>
                         </div>
                     </div>
@@ -18,53 +20,46 @@
                                 <table class="table listing">
                                     <thead>
                                         <tr class="bg-primary text-white">
-                                            <th>content #</th>
-                                            <th>Customer</th>
-                                            <th>Ship to</th>
-                                            <th>Base Price</th>
-                                            <th>Purchased Price</th>
-                                            <th>Status</th>
+                                            <th>Cms_id #</th>
+                                            <th>Page Name</th>
+                                            <th>Content</th>
+                                            <th>Created_at</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>WD-61</td>
-                                            <td>Edinburgh</td>
-                                            <td>New York</td>
-                                            <td>$1500</td>
-                                            <td>$3200</td>
-                                            <td>
-                                                <label class="badge badge-info">On hold</label>
-                                            </td>
-                                            <td class="text-right">
-                                                <button class="btn btn-light">
-                                                    <i class="mdi mdi-eye text-primary"></i>View
-                                                </button>
-                                                <button class="btn btn-light">
-                                                    <i class="mdi mdi-close text-danger"></i>Remove
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        <?php if (isset($cms_list) && !empty($cms_list)) { ?>
+                                        <?php foreach ($cms_list as $key => $cms) { ?>
 
                                         <tr>
-                                            <td>WD-61</td>
-                                            <td>Edinburgh</td>
-                                            <td>New York</td>
-                                            <td>$1500</td>
-                                            <td>$3200</td>
-                                            <td>
-                                                <label class="badge badge-info">On hold</label>
+                                            <td><?php echo $cms->cms_id ?>
                                             </td>
-                                            <td class="text-right">
-                                                <button class="btn btn-light">
-                                                    <i class="mdi mdi-eye text-primary"></i>View
-                                                </button>
-                                                <button class="btn btn-light">
-                                                    <i class="mdi mdi-close text-danger"></i>Remove
-                                                </button>
+                                            <td><?php echo $cms->page_name ?>
+                                            </td>
+                                            <td><?php echo $cms->content ?>
+                                            </td>
+                                            <td><?php echo $cms->updated_at ?>
+                                            </td>
+
+                                            <td>
+                                                <a href="<?php echo $cms->cms_id ?>"
+                                                    class="btn btn-light ad-mr-5">
+                                                    <i class="mdi mdi-eye text-primary"></i>
+                                                </a>
+                                                <a href="<?php echo SERVER_ROOT_PATH.'admin/edit_content/'.$cms->cms_id ?>"
+                                                    class="btn btn-light ad-mr-5">
+                                                    <i class="mdi mdi-pencil text-primary"></i>
+                                                </a>
+                                                <a class="btn btn-light ad-mr-5"
+                                                    onclick="delete_cms('<?php echo $cms->cms_id ?>')">
+                                                    <i class="mdi mdi-delete-forever text-danger"></i>
+                                                </a>
+                                                <!-- <a class="btn btn-light ad-mr-5" id="show">
+                                                    <i class="mdi mdi-delete-forever text-danger"></i>
+                                                </a> -->
                                             </td>
                                         </tr>
+                                        <?php } } ?>
 
                                     </tbody>
                                 </table>

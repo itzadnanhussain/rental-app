@@ -220,7 +220,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                            href="<?php echo SERVER_ROOT_PATH.'admin/email_list' ?>">
+                            href="<?php echo SERVER_ROOT_PATH.'admin/email_temp_list' ?>">
                             <i class="fa fa-envelope menu-icon"></i>
                             <span class="menu-title">Email</span>
                         </a>

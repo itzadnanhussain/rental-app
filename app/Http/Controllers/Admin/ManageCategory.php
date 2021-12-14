@@ -41,6 +41,7 @@ class ManageCategory extends Controller
         ///common  lines
         $data['title'] = GetTitle();
         $data['category'] = GetByWhereRecord('tbl_categories', array('cat_id'=> $id));
+        
         return view('admin.editcategory', $data);
     }
 
@@ -55,7 +56,13 @@ class ManageCategory extends Controller
 
         ///validation errors
         if ($validation->fails()) {
-            $data = array('code' => 'errors', 'message' =>  $validation->errors());
+            ///validation errors code
+            $errors = $validation->errors()->toArray();
+            $error_array = array();
+            foreach ($errors as $key => $value) {
+                $error_array[] = array($key , $value[0]);
+            }
+            $data = array('code' => 'errors', 'message' => $error_array);
             echo json_encode($data);
             die;
         } else {
@@ -69,13 +76,38 @@ class ManageCategory extends Controller
                 die;
             }
         }
+    }
 
-        
+    ///update_category_process
+    public function update_category_process(Request $request)
+    {
+        ///check form validation
+        $validation = Validator::make($request->all(), [
+            'cat_name' => 'required|unique:tbl_categories',
+       ]);
 
-        echo '<pre>';
-        print_r($request->all());
-        echo '</pre>';
-        die;
+        ///validation errors
+        if ($validation->fails()) {
+            ///validation errors code
+            $errors = $validation->errors()->toArray();
+            $error_array = array();
+            foreach ($errors as $key => $value) {
+                $error_array[] = array($key , $value[0]);
+            }
+            $data = array('code' => 'errors', 'message' => $error_array);
+            echo json_encode($data);
+            die;
+        } else {
+            $postData = array();
+            $postData['cat_name'] = ucfirst($request->cat_name);
+            $is_updated = UpdateRecord('tbl_categories', array('cat_id'=>$request->cat_id), $postData);
+            if ($is_updated) {
+                $url = SERVER_ROOT_PATH.'admin/category_list';
+                $data = array('code' => 'success_url', 'message' => 'Category Has Been Updated!','redirect_url'=> $url);
+                echo json_encode($data);
+                die;
+            }
+        }
     }
 
 

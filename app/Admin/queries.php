@@ -26,9 +26,11 @@ if (!function_exists('GetSingleRecord')) {
 
 ///GetByWhere
 if (!function_exists('GetByWhereRecord')) {
-    function GetByWhereRecord($table = null, $where = array())
+    function GetByWhereRecord($table = null, $where = array(), $whereNotIn = array())
     {
-        $records = DB::table($table)->where($where)->get();
+        $records = DB::table($table)
+        ->where($where)
+        ->get();
         return $records->toArray();
     }
 }

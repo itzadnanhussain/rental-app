@@ -26,6 +26,10 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="exampleTextarea1">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Enter Email Address">
+                         </div>
+                        <div class="form-group">
                             <label>Profile</label>
                             <input type="file" name="profile" class="file-upload-default">
                             <div class="input-group col-xs-12">
@@ -36,11 +40,9 @@
                                 </span>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="exampleTextarea1">Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Enter Email Address">
-                         </div>
+                        
+                      
+                    
                         <input type="submit" class="btn btn-primary mr-2" value="Submit"> 
                         <button class="btn btn-light">Cancel</button>
                     </form>

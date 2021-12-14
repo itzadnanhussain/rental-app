@@ -20,6 +20,7 @@ class ManageContent extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
+        $data['cms_list'] = GetByWhereRecord('tbl_cms');
         return view('admin.contentlist', $data);
     }
 
@@ -36,50 +37,136 @@ class ManageContent extends Controller
     ///add_content_process
     public function add_content_process(Request $request)
     {
-        $this->validate($request, [
+         
+        ///check form validation
+        $validation = Validator::make($request->all(), [
             'page_name' => 'required',
             'content' => 'required',
             'filenames' => 'required',
             'filenames.*' => 'image'
        ]);
 
-        ///handle multiple images
-        $files = [];
-        if ($request->hasfile('filenames')) {
-            foreach ($request->file('filenames') as $file) {
-                $name = time().rand(1, 100).'.'.$file->extension();
-                $file->move(public_path('admin/cms'), $name);
-                $files[] = $name;
+        ///validation errors
+        if ($validation->fails()) {
+            ///validation errors code
+            $errors = $validation->errors()->toArray();
+            $error_array = array();
+            foreach ($errors as $key => $value) {
+                $error_array[] = array($key , $value[0]);
+            }
+            $data = array('code' => 'errors', 'message' => $error_array);
+            echo json_encode($data);
+            die;
+        } else {
+            extract($request->all());
+            ///handle editor images and content
+            $content = $request->content;
+            $dom = new \DomDocument();
+            $dom->loadHtml($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $imageFile = $dom->getElementsByTagName('img');
+            foreach ($imageFile as $item => $image) {
+                $data = $image->getAttribute('src');
+                list($type, $data) = explode(';', $data);
+                list(, $data)      = explode(',', $data);
+                $imgeData = base64_decode($data);
+                $image_name= "/admin/images/cms/".$page_name.'/' . time().$item.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $imgeData);
+          
+                $image->removeAttribute('src');
+                $image->setAttribute('src', $image_name);
+            }
+            $content = $dom->saveHTML();
+
+            ///post data to database
+            $postData = array();
+            $postData['page_name'] = $page_name;
+            $postData['content'] = $content;
+
+            $cms_id = AddNewRecord('tbl_cms', $postData);
+            if ($cms_id) {
+                ///handle multiple images
+                $files = [];
+                if ($request->hasfile('filenames')) {
+                    foreach ($request->file('filenames') as $file) {
+                        $name = time().rand(1, 100).'.'.$file->extension();
+                        $file->move(public_path('admin/images/cms/'.$page_name), $name);
+                        // $files[] = $name;
+                        AddNewRecord('tbl_cms_banners', array('cms_id' => $cms_id,'banner' => $name));
+                    }
+                }
+                $url = SERVER_ROOT_PATH.'admin/content_list';
+                $data = array('code' => 'success_url', 'message' => 'New CMS Has Been Added!','redirect_url'=> $url);
+                echo json_encode($data);
+                die;
             }
         }
-  
-        echo '<pre>';
-        print_r($files);
-        echo '</pre>';
-        die;
-
-
-        ///handle editor images
-        $content = $request->content;
-        $dom = new \DomDocument();
-        $dom->loadHtml($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        $imageFile = $dom->getElementsByTagName('img');
-        foreach ($imageFile as $item => $image) {
-            $data = $image->getAttribute('src');
-            list($type, $data) = explode(';', $data);
-            list(, $data)      = explode(',', $data);
-            $imgeData = base64_decode($data);
-            $image_name= "/Admin/cms/" . time().$item.'.png';
-            $path = public_path() . $image_name;
-            file_put_contents($path, $imgeData);
-          
-            $image->removeAttribute('src');
-            $image->setAttribute('src', $image_name);
+    }
+ 
+    ///edit_content
+    public function edit_content($id)
+    {
+        $data = array();
+        ///common  lines
+        $data['title'] = GetTitle();
+        $data['content'] = GetByWhereRecord('tbl_cms', array('cms_id'=> $id));
+         
+        return view('admin.editcontent', $data);
+    }
+    
+ 
+    ///update_content_process
+    public function update_content_process(Request $request)
+    {
+        ///check form validation
+        $validation = Validator::make($request->all(), [
+             'cat_name' => 'required|unique:tbl_cms',
+        ]);
+ 
+        ///validation errors
+        if ($validation->fails()) {
+            ///validation errors code
+            $errors = $validation->errors()->toArray();
+            $error_array = array();
+            foreach ($errors as $key => $value) {
+                $error_array[] = array($key , $value[0]);
+            }
+            $data = array('code' => 'errors', 'message' => $error_array);
+            echo json_encode($data);
+            die;
+        } else {
+            $postData = array();
+            $postData['cat_name'] = ucfirst($request->cat_name);
+            $is_updated = UpdateRecord('tbl_cms', array('cms_id'=>$request->cms_id), $postData);
+            if ($is_updated) {
+                $url = SERVER_ROOT_PATH.'admin/content_list';
+                $data = array('code' => 'success_url', 'message' => 'content Has Been Updated!','redirect_url'=> $url);
+                echo json_encode($data);
+                die;
+            }
         }
-        $content = $dom->saveHTML();
-        echo '<pre>';
-        print_r($content);
-        echo '</pre>';
+    }
+ 
+ 
+    ///delete_content_process
+    public function delete_content_process(Request $request)
+    {
+        extract($request->all());
+        $where = array('cms_id'=>$id);
+        $is_deleted = DeleteRecord('tbl_cms', $where);
+        if ($is_deleted) {
+            $data = array('code' => 'success', 'message' => 'Record deleted!');
+            echo json_encode($data);
+            die;
+        } else {
+            $data = array('code' => 'warning', 'message' => 'Record not deleted!');
+            echo json_encode($data);
+            die;
+        }
+ 
+         
+ 
+        echo 'you are here : '.$id;
         die;
     }
 }
