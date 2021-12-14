@@ -1,0 +1,105 @@
+<?php
+
+use App\Http\Controllers\Admin\AdminDashboard;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\LoginAdmin;
+use App\Http\Controllers\Admin\ManageBooking;
+use App\Http\Controllers\Admin\ManageCategory;
+use App\Http\Controllers\Admin\ManageContent;
+use App\Http\Controllers\Admin\ManageEmail;
+use App\Http\Controllers\Admin\ManageUsers;
+use App\Http\Controllers\Admin\ManagePayment;
+use App\Http\Controllers\Admin\ManageProperty;
+use App\Http\Controllers\Admin\ManageReview;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+
+
+///**********************Login Controller**************************/
+///login page
+Route::get('admin/login', [LoginAdmin::class, 'load_login_page']);
+Route::post('login', [LoginAdmin::class, 'load_login_process']);
+
+///logout
+Route::get('admin/logout', [LoginAdmin::class, 'admin_logout']);
+
+
+///**********************Admin Dashboard************************ */
+///load_dashboard
+Route::get('admin/dashboard', [AdminDashboard::class, 'load_dashboard']);
+
+
+///**********************User Management************************ */
+///load_users_list
+Route::get('admin/users_list', [ManageUsers::class, 'load_users_list']);
+
+///add_user
+Route::get('admin/add_user', [ManageUsers::class,'add_user']);
+Route::post('admin/add_user_process', [ManageUsers::class,'add_user_process']);
+
+///delete_user_process
+Route::post('admin/delete_user_process', [ManageUsers::class,'delete_user_process']);
+
+///edit_user
+Route::get('admin/edit_user/{id}', [ManageUsers::class,'edit_user']);
+
+
+
+///**********************Content Management************************ */
+///load_content_list
+Route::get('admin/content_list', [ManageContent::class, 'load_content_list']);
+
+///add_content
+Route::get('admin/add_content', [ManageContent::class, 'add_content']);
+Route::post('admin/add_content_process', [ManageContent::class, 'add_content_process']);
+
+
+
+///**********************Payment Management************************ */
+///load_payment_list
+Route::get('admin/payment_list', [ManagePayment::class, 'load_payment_list']);
+
+
+///**********************Category Management************************ */
+///load_category_list
+Route::get('admin/category_list', [ManageCategory::class, 'load_category_list']);
+
+///add_content
+Route::get('admin/add_category', [ManageCategory::class, 'add_category']);
+Route::post('admin/add_category_process', [ManageCategory::class, 'add_category_process']);
+
+///delete_category_process
+Route::post('admin/delete_category_process', [ManageCategory::class,'delete_category_process']);
+
+///edit_user
+Route::get('admin/edit_user/{id}', [ManageCategory::class,'edit_user']);
+
+
+
+///**********************Property Management************************ */
+///load_property_list
+Route::get('admin/property_list', [ManageProperty::class, 'load_property_list']);
+
+///**********************Booking Management************************ */
+///load_booking_list
+Route::get('admin/booking_list', [ManageBooking::class, 'load_booking_list']);
+
+
+///**********************Review Management************************ */
+///load_review_list
+Route::get('admin/review_list', [ManageReview::class, 'load_review_list']);
+
+
+///**********************Email Management************************ */
+///load_email_list
+Route::get('admin/email_list', [ManageEmail::class, 'load_email_list']);
