@@ -12,6 +12,18 @@ use Illuminate\Support\Str;
 
 class AdminDashboard extends Controller
 {
+    /*
+    * Only LoggedIn users can come to this page
+    */
+    public function __construct()
+    {
+        // $data = session()->get('user_id');
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+        // die;
+        // $this->middleware('admin_auth');
+    }
     ///load_dashboard
     public function load_dashboard()
     {

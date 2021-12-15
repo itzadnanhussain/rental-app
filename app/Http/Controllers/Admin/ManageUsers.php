@@ -165,6 +165,16 @@ class ManageUsers extends Controller
     }
 
 
+    ///load_user_profile
+    public function load_user_profile()
+    {
+        $data = array();
+        ///common  lines
+        $data['title'] = GetTitle();
+        return view('admin.userprofile', $data);
+    }
+
+
     ///delete_user_process
     public function delete_user_process(Request $request)
     {

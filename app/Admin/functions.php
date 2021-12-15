@@ -83,3 +83,26 @@ if (!function_exists('file_upload')) {
         // }
     }
 }
+
+///
+if (!function_exists('ReadMore')) {
+    function ReadMore($text = null, $link = null)
+    {
+        $string = strip_tags($text);
+        if (strlen($string) > 50) {
+            // truncate string
+            $stringCut = substr($string, 0, 50);
+            $endPoint = strrpos($stringCut, ' ');
+            
+            //if the string doesn't contain any space then it will cut without word basis.
+            $string = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+            if ($link) {
+                $string .= '... <a href="'.$link.'">Read More</a>';
+            } else {
+                $string .= '...';
+            }
+        }
+       
+        return $string;
+    }
+}

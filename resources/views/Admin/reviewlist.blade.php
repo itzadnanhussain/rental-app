@@ -18,53 +18,45 @@
                                 <table class="table listing">
                                     <thead>
                                         <tr class="bg-primary text-white">
-                                            <th>review #</th>
-                                            <th>Customer</th>
-                                            <th>Ship to</th>
-                                            <th>Base Price</th>
-                                            <th>Purchased Price</th>
-                                            <th>Status</th>
+                                            <th>review_id #</th>
+                                            <th>Review User Id</th>
+                                            <th>Description</th>
+                                            <th>Posted Date</th>
+
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>WD-61</td>
-                                            <td>Edinburgh</td>
-                                            <td>New York</td>
-                                            <td>$1500</td>
-                                            <td>$3200</td>
-                                            <td>
-                                                <label class="badge badge-info">On hold</label>
-                                            </td>
-                                            <td class="text-right">
-                                                <button class="btn btn-light">
-                                                    <i class="mdi mdi-eye text-primary"></i>View
-                                                </button>
-                                                <button class="btn btn-light">
-                                                    <i class="mdi mdi-close text-danger"></i>Remove
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        <?php if (isset($reviews_list) && !empty($reviews_list)) { ?>
+                                        <?php foreach ($reviews_list as $key => $review) { ?>
 
                                         <tr>
-                                            <td>WD-61</td>
-                                            <td>Edinburgh</td>
-                                            <td>New York</td>
-                                            <td>$1500</td>
-                                            <td>$3200</td>
-                                            <td>
-                                                <label class="badge badge-info">On hold</label>
+                                            <td><?php echo $review->review_id ?>
                                             </td>
-                                            <td class="text-right">
-                                                <button class="btn btn-light">
-                                                    <i class="mdi mdi-eye text-primary"></i>View
-                                                </button>
-                                                <button class="btn btn-light">
-                                                    <i class="mdi mdi-close text-danger"></i>Remove
-                                                </button>
+                                            <td><?php echo $review->review_user_id ?>
+                                            </td>
+                                            <td><?php echo ReadMore($review->review_description) ?>
+                                            </td>
+                                            <td><?php echo $review->created_at ?>
+                                            </td>
+
+                                            <td>
+                                                <a onclick="show_review_detail('<?php echo $review->review_id ?>')"
+                                                    class="btn btn-light ad-mr-5">
+                                                    <i class="mdi mdi-eye text-primary"></i>
+                                                </a>
+                                                <a href="<?php echo SERVER_ROOT_PATH.'admin/edit_review/'.$review->review_id ?>"
+                                                    class="btn btn-light ad-mr-5">
+                                                    <i class="mdi mdi-pencil text-primary"></i>
+                                                </a>
+                                                <a class="btn btn-light ad-mr-5"
+                                                    onclick="delete_review('<?php echo $review->review_id ?>')">
+                                                    <i class="mdi mdi-delete-forever text-danger"></i>
+                                                </a>
                                             </td>
                                         </tr>
+                                        <?php } } ?>
+
 
                                     </tbody>
                                 </table>

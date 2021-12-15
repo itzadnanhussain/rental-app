@@ -15,6 +15,8 @@
        </div>
        <!-- page-body-wrapper ends -->
        </div>
+       @include('admin.listofmodals')
+
        <!-- container-scroller -->
        <!-- base:js -->
        <script
@@ -53,6 +55,8 @@
        <script src="<?php echo ADMIN_ASSETS; ?>js/editorDemo.js"></script>
        <script src="<?php echo ADMIN_ASSETS; ?>js/file-upload.js"></script>
        <script src="<?php echo ADMIN_ASSETS; ?>js/avgrund.js"></script>
+       <script src="<?php echo ADMIN_ASSETS; ?>js/tabs.js"></script>
+
        <!-- End custom js for this page-->
        </body>
 

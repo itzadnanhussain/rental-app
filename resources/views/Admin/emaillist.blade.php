@@ -42,7 +42,7 @@
                                             </td>
 
                                             <td>
-                                                <a href="<?php echo $template->etemp_id ?>"
+                                                <a href="<?php echo SERVER_ROOT_PATH.'admin/edit_email_temp/'.$template->etemp_id ?>"
                                                     class="btn btn-light ad-mr-5">
                                                     <i class="mdi mdi-eye text-primary"></i>
                                                 </a>

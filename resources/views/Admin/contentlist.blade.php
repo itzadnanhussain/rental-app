@@ -42,7 +42,7 @@
                                             </td>
 
                                             <td>
-                                                <a href="<?php echo $cms->cms_id ?>"
+                                                <a href="<?php echo SERVER_ROOT_PATH.'admin/edit_content/'.$cms->cms_id ?>"
                                                     class="btn btn-light ad-mr-5">
                                                     <i class="mdi mdi-eye text-primary"></i>
                                                 </a>

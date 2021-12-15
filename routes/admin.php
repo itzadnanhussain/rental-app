@@ -55,6 +55,10 @@ Route::get('admin/edit_user/{id}', [ManageUsers::class,'edit_user']);
 Route::post('admin/update_user_process', [ManageUsers::class,'update_user_process']);
 
 
+///load_user_profile
+Route::get('admin/user_profile/{id}', [ManageUsers::class,'load_user_profile']);
+
+
 
 ///**********************Content Management************************ */
 ///load_content_list
@@ -111,6 +115,17 @@ Route::get('admin/booking_list', [ManageBooking::class, 'load_booking_list']);
 ///**********************Review Management************************ */
 ///load_review_list
 Route::get('admin/review_list', [ManageReview::class, 'load_review_list']);
+
+///get_review_detail_by_id
+Route::post('admin/get_review_detail_by_id', [ManageReview::class, 'get_review_detail_by_id']);
+
+///edit_review
+Route::get('admin/edit_review/{id}', [ManageReview::class, 'edit_review']);
+Route::post('admin/update_review_process', [ManageReview::class, 'update_review_process']);
+
+
+///delete_review_process
+Route::post('admin/delete_review_process', [ManageReview::class, 'delete_review_process']);
 
 
 ///**********************Email Management************************ */

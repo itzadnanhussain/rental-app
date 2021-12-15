@@ -90,9 +90,11 @@ class ManageContent extends Controller
                 if ($request->hasfile('filenames')) {
                     foreach ($request->file('filenames') as $file) {
                         $name = time().rand(1, 100).'.'.$file->extension();
-                        $file->move(public_path('admin/images/cms/'.$page_name), $name);
+                        $file_path = 'admin/images/cms/'.$page_name;
+                        $file->move(public_path($file_path), $name);
+                        $file_path = 'admin/images/cms/'.$page_name.'/'.$name;
                         // $files[] = $name;
-                        AddNewRecord('tbl_cms_banners', array('cms_id' => $cms_id,'banner' => $name));
+                        AddNewRecord('tbl_cms_banners', array('cms_id' => $cms_id,'banner' => $file_path));
                     }
                 }
                 $url = SERVER_ROOT_PATH.'admin/content_list';
@@ -109,7 +111,9 @@ class ManageContent extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['content'] = GetByWhereRecord('tbl_cms', array('cms_id'=> $id));
+        $data['cms'] = GetByWhereRecord('tbl_cms', array('cms_id'=> $id));
+        $data['cms_banners'] = GetByWhereRecord('tbl_cms_banners', array('cms_id'=> $id));
+        
          
         return view('admin.editcontent', $data);
     }
