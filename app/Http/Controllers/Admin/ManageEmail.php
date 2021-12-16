@@ -19,7 +19,7 @@ class ManageEmail extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['email_templates'] = GetByWhereRecord('tbl_email_templates');
+        $data['email_templates'] = GetByWhereRecord('ad_email_templates');
         return view('admin.emaillist', $data);
     }
 
@@ -39,7 +39,7 @@ class ManageEmail extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['email_temp_data'] = GetByWhereRecord('tbl_email_templates', array('etemp_id'=> $id));
+        $data['email_temp_data'] = GetByWhereRecord('ad_email_templates', array('etemp_id'=> $id));
            
         return view('admin.editemail', $data);
     }
@@ -50,7 +50,7 @@ class ManageEmail extends Controller
     {
         ///check form validation
         $validation = Validator::make($request->all(), [
-               'etemp_name' => 'required|unique:tbl_email_templates',
+               'etemp_name' => 'required|unique:ad_email_templates',
                'etemp_subject' => 'required',
                'content' => 'required',
           ]);
@@ -71,7 +71,7 @@ class ManageEmail extends Controller
             $postData['etemp_name'] =  $request->etemp_name;
             $postData['etemp_subject'] = $request->etemp_name;
             $postData['etemp_data'] = $request->content;
-            $last_id = AddNewRecord('tbl_email_templates', $postData);
+            $last_id = AddNewRecord('ad_email_templates', $postData);
             if ($last_id) {
                 $url = SERVER_ROOT_PATH.'admin/email_temp_list';
                 $data = array('code' => 'success_url', 'message' => 'New Email Templates Has Been Added!','redirect_url'=> $url);
@@ -109,7 +109,7 @@ class ManageEmail extends Controller
             $postData['etemp_name'] =  $etemp_name;
             $postData['etemp_subject'] = $etemp_name;
             $postData['etemp_data'] = $content;
-            $is_updated = UpdateRecord('tbl_email_templates', array('etemp_id' => $etemp_id), $postData);
+            $is_updated = UpdateRecord('ad_email_templates', array('etemp_id' => $etemp_id), $postData);
             if ($is_updated) {
                 $url = SERVER_ROOT_PATH.'admin/email_temp_list';
                 $data = array('code' => 'success_url', 'message' => 'Email Templates Has Been Updated!','redirect_url'=> $url);
@@ -125,7 +125,7 @@ class ManageEmail extends Controller
     {
         extract($request->all());
         $where = array('etemp_id'=>$id);
-        $is_deleted = DeleteRecord('tbl_email_templates', $where);
+        $is_deleted = DeleteRecord('ad_email_templates', $where);
         if ($is_deleted) {
             $data = array('code' => 'success', 'message' => 'Record deleted!');
             echo json_encode($data);

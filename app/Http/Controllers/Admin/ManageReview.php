@@ -19,7 +19,7 @@ class ManageReview extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['reviews_list'] = GetByWhereRecord('tbl_reviews');
+        $data['reviews_list'] = GetByWhereRecord('ad_reviews');
         return view('admin.reviewlist', $data);
     }
 
@@ -39,7 +39,7 @@ class ManageReview extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['review'] = GetByWhereRecord('tbl_reviews', array('review_id'=> $id));
+        $data['review'] = GetByWhereRecord('ad_reviews', array('review_id'=> $id));
          
         return view('admin.editreview', $data);
     }
@@ -50,7 +50,7 @@ class ManageReview extends Controller
     {
         ///check form validation
         $validation = Validator::make($request->all(), [
-             'cat_name' => 'required|unique:tbl_reviews',
+             'cat_name' => 'required|unique:ad_reviews',
         ]);
  
         ///validation errors
@@ -67,7 +67,7 @@ class ManageReview extends Controller
         } else {
             $postData = array();
             $postData['cat_name'] = ucfirst($request->cat_name);
-            $last_id = AddNewRecord('tbl_reviews', $postData);
+            $last_id = AddNewRecord('ad_reviews', $postData);
             if ($last_id) {
                 $url = SERVER_ROOT_PATH.'admin/review_list';
                 $data = array('code' => 'success_url', 'message' => 'New review Has Been Added!','redirect_url'=> $url);
@@ -100,7 +100,7 @@ class ManageReview extends Controller
             extract($request->all());
             $postData = array();
             $postData['review_description'] = $review_description;
-            $is_updated = UpdateRecord('tbl_reviews', array('review_id'=>$review_id), $postData);
+            $is_updated = UpdateRecord('ad_reviews', array('review_id'=>$review_id), $postData);
             if ($is_updated) {
                 $url = SERVER_ROOT_PATH.'admin/review_list';
                 $data = array('code' => 'success_url', 'message' => 'review Has Been Updated!','redirect_url'=> $url);
@@ -116,7 +116,7 @@ class ManageReview extends Controller
     {
         if ($request) {
             extract($request->all());
-            $review_data = GetByWhereRecord('tbl_reviews', array('review_id' =>$review_id));
+            $review_data = GetByWhereRecord('ad_reviews', array('review_id' =>$review_id));
             $review_data = (array)$review_data[0];
            
             $data = array('code' => 'success', 'message' => $review_data);
@@ -132,7 +132,7 @@ class ManageReview extends Controller
     {
         extract($request->all());
         $where = array('review_id'=>$id);
-        $is_deleted = DeleteRecord('tbl_reviews', $where);
+        $is_deleted = DeleteRecord('ad_reviews', $where);
         if ($is_deleted) {
             $data = array('code' => 'success', 'message' => 'Record deleted!');
             echo json_encode($data);

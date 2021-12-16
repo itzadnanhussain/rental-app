@@ -18,7 +18,7 @@ class ManageUsers extends Controller
     public function load_users_list()
     {
         $data = array();
-        $data['users_list'] = GetAllRecords('tbl_users');
+        $data['users_list'] = GetAllRecords('ad_users');
         ///common  lines
         $data['title'] = GetTitle();
         return view('admin.userlist', $data);
@@ -40,7 +40,7 @@ class ManageUsers extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['user'] = GetByWhereRecord('tbl_users', array('user_id'=> $id));
+        $data['user'] = GetByWhereRecord('ad_users', array('user_id'=> $id));
         return view('admin.edituser', $data);
     }
 
@@ -51,7 +51,7 @@ class ManageUsers extends Controller
         ///check form validation
         $validation = Validator::make($request->all(), [
             'user_type' => 'required',
-            'email' => 'required|unique:tbl_users',
+            'email' => 'required|unique:ad_users',
             'profile' => 'required',
        ]);
 
@@ -72,7 +72,7 @@ class ManageUsers extends Controller
             $postData['email'] = $request->email;
             $postData['user_type'] = $request->user_type;
 
-            $last_id = AddNewRecord('tbl_users', $postData);
+            $last_id = AddNewRecord('ad_users', $postData);
 
             ///handle profile
             if ($request->hasfile('profile')) {
@@ -121,7 +121,7 @@ class ManageUsers extends Controller
             echo '</pre>';
             die;
             ///check email validation
-            $is_already_email = GetByWhereRecord('tbl_users', );
+            $is_already_email = GetByWhereRecord('ad_users', );
             if ($is_already_email) {
                 $data = array('code' => 'warning', 'message' => 'Sorry this email address already used by other user');
                 echo json_encode($data);
@@ -134,7 +134,7 @@ class ManageUsers extends Controller
             $postData['user_type'] = $request->user_type;
            
             
-            $is_updated = UpdateRecord('tbl_users', array('user_id'=>$update_id), $postData);
+            $is_updated = UpdateRecord('ad_users', array('user_id'=>$update_id), $postData);
            
            
 
@@ -180,7 +180,7 @@ class ManageUsers extends Controller
     {
         extract($request->all());
         $where = array('user_id'=>$id);
-        $is_deleted = DeleteRecord('tbl_users', $where);
+        $is_deleted = DeleteRecord('ad_users', $where);
         if ($is_deleted) {
             $data = array('code' => 'success', 'message' => 'Record deleted!');
             echo json_encode($data);

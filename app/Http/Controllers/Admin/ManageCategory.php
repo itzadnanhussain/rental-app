@@ -19,7 +19,7 @@ class ManageCategory extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['category_list'] = GetByWhereRecord('tbl_categories');
+        $data['category_list'] = GetByWhereRecord('ad_categories');
         return view('admin.categorylist', $data);
     }
 
@@ -40,7 +40,7 @@ class ManageCategory extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['category'] = GetByWhereRecord('tbl_categories', array('cat_id'=> $id));
+        $data['category'] = GetByWhereRecord('ad_categories', array('cat_id'=> $id));
         
         return view('admin.editcategory', $data);
     }
@@ -51,7 +51,7 @@ class ManageCategory extends Controller
     {
         ///check form validation
         $validation = Validator::make($request->all(), [
-            'cat_name' => 'required|unique:tbl_categories',
+            'cat_name' => 'required|unique:ad_categories',
        ]);
 
         ///validation errors
@@ -68,7 +68,7 @@ class ManageCategory extends Controller
         } else {
             $postData = array();
             $postData['cat_name'] = ucfirst($request->cat_name);
-            $last_id = AddNewRecord('tbl_categories', $postData);
+            $last_id = AddNewRecord('ad_categories', $postData);
             if ($last_id) {
                 $url = SERVER_ROOT_PATH.'admin/category_list';
                 $data = array('code' => 'success_url', 'message' => 'New category Has Been Added!','redirect_url'=> $url);
@@ -83,7 +83,7 @@ class ManageCategory extends Controller
     {
         ///check form validation
         $validation = Validator::make($request->all(), [
-            'cat_name' => 'required|unique:tbl_categories',
+            'cat_name' => 'required|unique:ad_categories',
        ]);
 
         ///validation errors
@@ -100,7 +100,7 @@ class ManageCategory extends Controller
         } else {
             $postData = array();
             $postData['cat_name'] = ucfirst($request->cat_name);
-            $is_updated = UpdateRecord('tbl_categories', array('cat_id'=>$request->cat_id), $postData);
+            $is_updated = UpdateRecord('ad_categories', array('cat_id'=>$request->cat_id), $postData);
             if ($is_updated) {
                 $url = SERVER_ROOT_PATH.'admin/category_list';
                 $data = array('code' => 'success_url', 'message' => 'Category Has Been Updated!','redirect_url'=> $url);
@@ -116,7 +116,7 @@ class ManageCategory extends Controller
     {
         extract($request->all());
         $where = array('cat_id'=>$id);
-        $is_deleted = DeleteRecord('tbl_categories', $where);
+        $is_deleted = DeleteRecord('ad_categories', $where);
         if ($is_deleted) {
             $data = array('code' => 'success', 'message' => 'Record deleted!');
             echo json_encode($data);

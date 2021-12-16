@@ -84,7 +84,7 @@ if (!function_exists('file_upload')) {
     }
 }
 
-///
+///ReadMore
 if (!function_exists('ReadMore')) {
     function ReadMore($text = null, $link = null)
     {
@@ -104,5 +104,19 @@ if (!function_exists('ReadMore')) {
         }
        
         return $string;
+    }
+}
+
+
+///ReadMore
+if (!function_exists('base_url')) {
+    function base_url()
+    {
+        if (isset($_SERVER['HTTPS'])) {
+            $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
+        } else {
+            $protocol = 'http';
+        }
+        return $protocol . "://" . $_SERVER['HTTP_HOST'] .'/';
     }
 }

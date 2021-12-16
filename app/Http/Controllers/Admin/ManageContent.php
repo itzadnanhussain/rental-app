@@ -20,7 +20,7 @@ class ManageContent extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['cms_list'] = GetByWhereRecord('tbl_cms');
+        $data['cms_list'] = GetByWhereRecord('ad_cms');
         return view('admin.contentlist', $data);
     }
 
@@ -83,7 +83,7 @@ class ManageContent extends Controller
             $postData['page_name'] = $page_name;
             $postData['content'] = $content;
 
-            $cms_id = AddNewRecord('tbl_cms', $postData);
+            $cms_id = AddNewRecord('ad_cms', $postData);
             if ($cms_id) {
                 ///handle multiple images
                 $files = [];
@@ -94,7 +94,7 @@ class ManageContent extends Controller
                         $file->move(public_path($file_path), $name);
                         $file_path = 'admin/images/cms/'.$page_name.'/'.$name;
                         // $files[] = $name;
-                        AddNewRecord('tbl_cms_banners', array('cms_id' => $cms_id,'banner' => $file_path));
+                        AddNewRecord('ad_cms_banners', array('cms_id' => $cms_id,'banner' => $file_path));
                     }
                 }
                 $url = SERVER_ROOT_PATH.'admin/content_list';
@@ -111,8 +111,8 @@ class ManageContent extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['cms'] = GetByWhereRecord('tbl_cms', array('cms_id'=> $id));
-        $data['cms_banners'] = GetByWhereRecord('tbl_cms_banners', array('cms_id'=> $id));
+        $data['cms'] = GetByWhereRecord('ad_cms', array('cms_id'=> $id));
+        $data['cms_banners'] = GetByWhereRecord('ad_cms_banners', array('cms_id'=> $id));
         
          
         return view('admin.editcontent', $data);
@@ -124,7 +124,7 @@ class ManageContent extends Controller
     {
         ///check form validation
         $validation = Validator::make($request->all(), [
-             'cat_name' => 'required|unique:tbl_cms',
+             'cat_name' => 'required|unique:ad_cms',
         ]);
  
         ///validation errors
@@ -141,7 +141,7 @@ class ManageContent extends Controller
         } else {
             $postData = array();
             $postData['cat_name'] = ucfirst($request->cat_name);
-            $is_updated = UpdateRecord('tbl_cms', array('cms_id'=>$request->cms_id), $postData);
+            $is_updated = UpdateRecord('ad_cms', array('cms_id'=>$request->cms_id), $postData);
             if ($is_updated) {
                 $url = SERVER_ROOT_PATH.'admin/content_list';
                 $data = array('code' => 'success_url', 'message' => 'content Has Been Updated!','redirect_url'=> $url);
@@ -157,7 +157,7 @@ class ManageContent extends Controller
     {
         extract($request->all());
         $where = array('cms_id'=>$id);
-        $is_deleted = DeleteRecord('tbl_cms', $where);
+        $is_deleted = DeleteRecord('ad_cms', $where);
         if ($is_deleted) {
             $data = array('code' => 'success', 'message' => 'Record deleted!');
             echo json_encode($data);

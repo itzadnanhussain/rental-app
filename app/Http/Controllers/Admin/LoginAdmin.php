@@ -60,7 +60,7 @@ class LoginAdmin extends Controller
         } else {
 
             ///validation ok
-            $findData = GetByWhereRecord('tbl_admin', array('email' => $request->email));
+            $findData = GetByWhereRecord('ad_admin', array('email' => $request->email));
             $password = $request->password;
             ///Login User
             if ($findData) {
@@ -111,7 +111,7 @@ class LoginAdmin extends Controller
             $res = encryptData($request->password);
             $postData['salt_password'] = $res['salt'];
             $postData['simple_password'] = $res['enc_text'];
-            AddNewRecord('tbl_admin', $postData);
+            AddNewRecord('ad_admin', $postData);
 
             ///Success
             $data = array('code' => 'success', 'message' => 'User Logged in  successfully');
