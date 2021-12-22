@@ -103,10 +103,10 @@
                     <li class="nav-item dropdown">
 
 
-                        <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
+                        <a class="nav-link profile-image count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
                             id="pagesDropdown" href="#" data-toggle="dropdown">
-                            <img src="<?php echo ADMIN_ASSETS.'images/profile/admin.png' ?>"
-                                class="nav-user-icon" width="30px" alt="profile" />
+                            <img src="<?php echo ADMIN_ASSETS.'images/profile/admin.JPG' ?>"
+                                class="nav-user-icon" width="30px" style="border-radius: 25px;" alt="profile" />
 
                             <i class="fa fa-angle-down"></i>
                         </a>
@@ -156,7 +156,8 @@
                     <li class="nav-item nav-profile">
                         <div class="nav-link d-flex">
                             <div class="profile-image">
-                                <img src="https://via.placeholder.com/37x37" alt="image">
+                                <img src="<?php echo ADMIN_ASSETS.'images/profile/admin.JPG' ?>"
+                                    alt="image">
                             </div>
                             <div class="profile-name">
                                 <p class="name">

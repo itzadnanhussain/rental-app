@@ -9,6 +9,12 @@
     font-size: 12px;
 }
 
+.profile-image img
+{
+    border-radius: 25px;
+    border: 1px solid #6fbf17;
+}
+
 .logo-title
 {
     color: #cdd4e1;
