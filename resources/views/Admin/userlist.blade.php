@@ -20,9 +20,10 @@
                                 <table class="table listing">
                                     <thead>
                                         <tr class="bg-primary text-white">
-                                            <th>user_id#</th>
+                                            <th>Name</th>
                                             <th>Email</th>
                                             <th>Type</th>
+                                            <th>Verified</th>
                                             <th>Join Us</th>
                                             <th>Actions</th>
                                         </tr>
@@ -32,11 +33,13 @@
                                         <?php foreach ($users_list as $key => $user) { ?>
 
                                         <tr>
-                                            <td><?php echo $user->user_id ?>
+                                            <td><?php echo GetUserFullName($user->user_id) ?>
                                             </td>
                                             <td><?php echo $user->email ?>
                                             </td>
                                             <td><?php echo $user->user_type ?>
+                                            </td>
+                                            <td><?php echo $user->user_verified ?>
                                             </td>
                                             <td><?php echo $user->created_at ?>
                                             </td>
@@ -46,10 +49,10 @@
                                                     class="btn btn-light ad-mr-5">
                                                     <i class="mdi mdi-eye text-primary"></i>
                                                 </a>
-                                                <a href="<?php echo SERVER_ROOT_PATH.'admin/edit_user/'.$user->user_id ?>"
-                                                    class="btn btn-light ad-mr-5">
-                                                    <i class="mdi mdi-pencil text-primary"></i>
-                                                </a>
+                                                <!-- <a href="<?php echo SERVER_ROOT_PATH.'admin/edit_user/'.$user->user_id ?>"
+                                                class="btn btn-light ad-mr-5">
+                                                <i class="mdi mdi-pencil text-primary"></i>
+                                                </a> -->
                                                 <a class="btn btn-light ad-mr-5"
                                                     onclick="delete_user('<?php echo $user->user_id ?>')">
                                                     <i class="mdi mdi-delete-forever text-danger"></i>

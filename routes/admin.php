@@ -47,6 +47,9 @@ Route::get('admin/users_list', [ManageUsers::class, 'load_users_list']);
 Route::get('admin/add_user', [ManageUsers::class,'add_user']);
 Route::post('admin/add_user_process', [ManageUsers::class,'add_user_process']);
 
+///image_upload_process
+Route::post('admin/image_upload_process', [ManageUsers::class,'image_upload_process']);
+
 ///delete_user_process
 Route::post('admin/delete_user_process', [ManageUsers::class,'delete_user_process']);
 

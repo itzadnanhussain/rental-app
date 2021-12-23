@@ -120,3 +120,40 @@ if (!function_exists('base_url')) {
         return $protocol . "://" . $_SERVER['HTTP_HOST'] .'/';
     }
 }
+
+///UserFullName
+if (!function_exists('GetUserFullName')) {
+    function GetUserFullName($user_id)
+    {
+        $rec = GetByWhereRecord('tbl_users', array('user_id' =>$user_id));
+        $full_name = $rec[0]->first_name.' '.$rec[0]->last_name;
+        return $full_name;
+    }
+}
+
+
+///resizeImage
+// if (!function_exists('resizeImage')) {
+//     ///Manage Image Resize process
+//     function resizeImage($filename, $user_id)
+//     {
+//         $source_path = FCPATH . '/assets/profiles/' . $user_id . '/' . $filename;
+//         $target_path = FCPATH . '/assets/profiles/' . $user_id . '/';
+//         $config_manip = array(
+//             'image_library' => 'gd2',
+//             'source_image' => $source_path,
+//             'new_image' => $target_path,
+//             'maintain_ratio' => true,
+//             'width' => 500,
+//         );
+
+//         $this->load->library('image_lib', $config_manip);
+//         if (!$this->image_lib->resize()) {
+//             //  echo $thiz->image_lib->display_errors();
+//             return false;
+//         } else {
+//             $this->image_lib->clear();
+//             return true;
+//         }
+//     }
+// }

@@ -169,14 +169,14 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="dashboard">
                         <a class="nav-link"
                             href="<?php echo SERVER_ROOT_PATH.'admin/dashboard' ?>">
                             <i class="fa fa-dashboard menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="user">
                         <a class="nav-link"
                             href="<?php echo SERVER_ROOT_PATH.'admin/users_list' ?>">
                             <!-- <i class="mdi mdi-account-multiple menu-icon"></i> -->
@@ -184,49 +184,49 @@
                             <span class="menu-title">Users</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="content">
                         <a class="nav-link"
                             href="<?php echo SERVER_ROOT_PATH.'admin/content_list' ?>">
                             <i class="fa fa-tasks menu-icon"></i>
                             <span class="menu-title">Content</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="payment">
                         <a class="nav-link"
                             href="<?php echo SERVER_ROOT_PATH.'admin/payment_list' ?>">
                             <i class="fa fa-credit-card menu-icon"></i>
                             <span class="menu-title">Payment</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="category">
                         <a class="nav-link"
                             href="<?php echo SERVER_ROOT_PATH.'admin/category_list' ?>">
                             <i class="fa fa-paw menu-icon"></i>
                             <span class="menu-title">Category</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="property">
                         <a class="nav-link"
                             href="<?php echo SERVER_ROOT_PATH.'admin/property_list' ?>">
                             <i class="fa fa-building menu-icon"></i>
                             <span class="menu-title">Property</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="booking">
                         <a class="nav-link"
                             href="<?php echo SERVER_ROOT_PATH.'admin/booking_list' ?>">
                             <i class="fa fa-home menu-icon"></i>
                             <span class="menu-title">Booking</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="review">
                         <a class="nav-link"
                             href="<?php echo SERVER_ROOT_PATH.'admin/review_list' ?>">
                             <i class="fa fa-star menu-icon"></i>
                             <span class="menu-title">Reviews</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="email">
                         <a class="nav-link"
                             href="<?php echo SERVER_ROOT_PATH.'admin/email_temp_list' ?>">
                             <i class="fa fa-envelope menu-icon"></i>

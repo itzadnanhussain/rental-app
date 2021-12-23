@@ -9,16 +9,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
 class ManageUsers extends Controller
 {
 
-    ///load_users_list
+    ///lotbl_users_list
     public function load_users_list()
     {
         $data = array();
-        $data['users_list'] = GetAllRecords('ad_users');
+        $data['users_list'] = GetAllRecords('tbl_users');
         ///common  lines
         $data['title'] = GetTitle();
         return view('admin.userlist', $data);
@@ -40,7 +41,7 @@ class ManageUsers extends Controller
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
-        $data['user'] = GetByWhereRecord('ad_users', array('user_id'=> $id));
+        $data['user'] = GetByWhereRecord('tbl_users', array('user_id'=> $id));
         return view('admin.edituser', $data);
     }
 
@@ -49,9 +50,15 @@ class ManageUsers extends Controller
     public function add_user_process(Request $request)
     {
         ///check form validation
+        
         $validation = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|unique:tbl_users',
+            'phone' => 'required|min:11|numeric|unique:tbl_users',
+            'simple_password' => 'required',
             'user_type' => 'required',
-            'email' => 'required|unique:ad_users',
+            'user_verified' => 'required',
             'profile' => 'required',
        ]);
 
@@ -68,17 +75,29 @@ class ManageUsers extends Controller
             echo json_encode($data);
             die;
         } else {
+            extract($request->all());
             $postData = array();
-            $postData['email'] = $request->email;
-            $postData['user_type'] = $request->user_type;
+            $postData['first_name'] = $first_name;
+            $postData['last_name'] = $last_name;
+            $postData['email'] = $email;
+            $postData['phone'] = $phone;
+            $postData['address'] = $address;
+            ///password salt process
+            $res = encryptData($simple_password);
+            $postData['salt_password'] = $res['salt'];
+            $postData['simple_password'] = $res['enc_text'];
+            $postData['user_type'] = $user_type;
+            $postData['user_verified'] = $user_verified;
+            $postData['profile_image'] = null;
 
-            $last_id = AddNewRecord('ad_users', $postData);
+            $last_id = AddNewRecord('tbl_users', $postData);
 
             ///handle profile
-            if ($request->hasfile('profile')) {
+            if ($request->hasfile('profile') && $last_id) {
                 $file = $request->file('profile');
                 $name = 'profile_'.$last_id.'.'.$file->extension();
                 $file->move(public_path('admin/profiles/'.$last_id), $name);
+                UpdateRecord('tbl_users', array('user_id'=>$last_id), array('profile_image' => $name));
             }
 
             $url = SERVER_ROOT_PATH.'admin/users_list';
@@ -92,11 +111,14 @@ class ManageUsers extends Controller
     ///update_user_process
     public function update_user_process(Request $request)
     {
-        ///check form validation
         $validation = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => ['required',Rule::unique('tbl_users')->ignore($request->user_id, 'user_id')],
+            'phone' => ['required',Rule::unique('tbl_users')->ignore($request->user_id, 'user_id')],
             'user_type' => 'required',
-            'email' => 'required',
-            'profile' => 'required',
+            'user_verified' => 'required',
+            'profile_status' => 'required'
        ]);
 
         ///validation errors
@@ -112,51 +134,27 @@ class ManageUsers extends Controller
             echo json_encode($data);
             die;
         } else {
-            $update_id = $request->user_id;
-            $where = array();
-            $where['user_id'] != $update_id;
-            $where['email'] = $request->email;
-            echo '<pre>';
-            print_r($where);
-            echo '</pre>';
-            die;
-            ///check email validation
-            $is_already_email = GetByWhereRecord('ad_users', );
-            if ($is_already_email) {
-                $data = array('code' => 'warning', 'message' => 'Sorry this email address already used by other user');
-                echo json_encode($data);
-                die;
-            }
-            
-            ///after email validation
+            extract($request->all());
             $postData = array();
-            $postData['email'] = $request->email;
-            $postData['user_type'] = $request->user_type;
-           
-            
-            $is_updated = UpdateRecord('ad_users', array('user_id'=>$update_id), $postData);
-           
-           
+            $postData['first_name'] = $first_name;
+            $postData['last_name'] = $last_name;
+            $postData['email'] = $email;
+            $postData['phone'] = $phone;
+            $postData['address'] = $address;
+             
 
-
-            ///handle profile
-            if ($request->hasfile('profile')) {
-
-                // Folder path to be flushed
-                $folder_path = "admin/profiles/".$update_id;
-                $files = glob($folder_path.'/*');
-                // Deleting all the files in the list
-                foreach ($files as $file) {
-                    if (is_file($file)) {
-                        unlink($file);
-                    }
-                }
-
-                $file = $request->file('profile');
-                $name = 'profile_'.$update_id.'.'.$file->extension();
-                $file->move(public_path($folder_path), $name);
+            if (isset($simple_password) && !empty($simple_password)) {
+                ///password salt process
+                $res = encryptData($simple_password);
+                $postData['salt_password'] = $res['salt'];
+                $postData['simple_password'] = $res['enc_text'];
             }
-
+           
+            $postData['user_type'] = $user_type;
+            $postData['user_verified'] = $user_verified;
+            $postData['profile_status'] = $profile_status;
+ 
+            UpdateRecord('tbl_users', array('user_id' => $user_id), $postData);
             $url = SERVER_ROOT_PATH.'admin/users_list';
             $data = array('code' => 'success_url', 'message' => 'User Has Been Updated!','redirect_url'=> $url);
             echo json_encode($data);
@@ -166,12 +164,40 @@ class ManageUsers extends Controller
 
 
     ///load_user_profile
-    public function load_user_profile()
+    public function load_user_profile($user_id)
     {
         $data = array();
         ///common  lines
         $data['title'] = GetTitle();
+        $data['user_data'] = GetByWhereRecord('tbl_users', array('user_id'=>$user_id));
+     
         return view('admin.userprofile', $data);
+    }
+
+    //image_upload_process
+    public function image_upload_process(Request $request)
+    {
+        ///image
+        if ($request->hasfile('image_upload_file')) {
+            extract($request->all());
+
+            
+            $path = 'Admin/profiles/' . $user_id . '/';
+            if (!is_dir($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $file = $request->file('image_upload_file');
+            $name = 'profile_'.$user_id.'.'.$file->extension();
+            $file->move(public_path('admin/profiles/'.$user_id), $name);
+            UpdateRecord('tbl_users', array('user_id'=>$user_id), array('profile_image' => $name));
+        
+            ///Success
+            $output = ADMIN_ASSETS.'profiles/'.$user_id.'/'.$name;
+            $data = array('status' => true, 'output' => $output);
+            echo json_encode($data);
+            die;
+        }
     }
 
 
@@ -180,7 +206,7 @@ class ManageUsers extends Controller
     {
         extract($request->all());
         $where = array('user_id'=>$id);
-        $is_deleted = DeleteRecord('ad_users', $where);
+        $is_deleted = DeleteRecord('tbl_users', $where);
         if ($is_deleted) {
             $data = array('code' => 'success', 'message' => 'Record deleted!');
             echo json_encode($data);
