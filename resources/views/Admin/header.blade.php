@@ -22,6 +22,9 @@
         href="<?php echo ADMIN_ASSETS; ?>vendors/datatables.net-bs4/dataTables.bootstrap4.css">
     <link rel="stylesheet"
         href="<?php echo ADMIN_ASSETS; ?>vendors/summernote/dist/summernote-bs4.css">
+    <link rel="stylesheet"
+        href="<?php echo ADMIN_ASSETS; ?>vendors/lightgallery/css/lightgallery.css">
+
 
     <!-- End plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -105,7 +108,7 @@
 
                         <a class="nav-link profile-image count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
                             id="pagesDropdown" href="#" data-toggle="dropdown">
-                            <img src="<?php echo ADMIN_ASSETS.'images/profile/admin.JPG' ?>"
+                            <img src="<?php echo ADMIN_ASSETS.'images/profile/admin.jpg' ?>"
                                 class="nav-user-icon" width="30px" style="border-radius: 25px;" alt="profile" />
 
                             <i class="fa fa-angle-down"></i>
@@ -156,7 +159,7 @@
                     <li class="nav-item nav-profile">
                         <div class="nav-link d-flex">
                             <div class="profile-image">
-                                <img src="<?php echo ADMIN_ASSETS.'images/profile/admin.JPG' ?>"
+                                <img src="<?php echo ADMIN_ASSETS.'images/profile/admin.jpg' ?>"
                                     alt="image">
                             </div>
                             <div class="profile-name">

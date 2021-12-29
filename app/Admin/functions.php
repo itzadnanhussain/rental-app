@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Crypt;
 
 ///GetTitle
 if (!function_exists('GetTitle')) {
@@ -132,28 +133,21 @@ if (!function_exists('GetUserFullName')) {
 }
 
 
-///resizeImage
-// if (!function_exists('resizeImage')) {
-//     ///Manage Image Resize process
-//     function resizeImage($filename, $user_id)
-//     {
-//         $source_path = FCPATH . '/assets/profiles/' . $user_id . '/' . $filename;
-//         $target_path = FCPATH . '/assets/profiles/' . $user_id . '/';
-//         $config_manip = array(
-//             'image_library' => 'gd2',
-//             'source_image' => $source_path,
-//             'new_image' => $target_path,
-//             'maintain_ratio' => true,
-//             'width' => 500,
-//         );
+///encryption
+if (!function_exists('encryption')) {
+    function encryption($id)
+    {
+        $id = Crypt::encrypt($id);
+        return $id;
+    }
+}
 
-//         $this->load->library('image_lib', $config_manip);
-//         if (!$this->image_lib->resize()) {
-//             //  echo $thiz->image_lib->display_errors();
-//             return false;
-//         } else {
-//             $this->image_lib->clear();
-//             return true;
-//         }
-//     }
-// }
+
+///decryption
+if (!function_exists('decryption')) {
+    function decryption($id)
+    {
+        $id = Crypt::decrypt($id);
+        return $id;
+    }
+}

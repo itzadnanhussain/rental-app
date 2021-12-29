@@ -56,6 +56,11 @@
        <script src="<?php echo ADMIN_ASSETS; ?>js/file-upload.js"></script>
        <script src="<?php echo ADMIN_ASSETS; ?>js/avgrund.js"></script>
        <script src="<?php echo ADMIN_ASSETS; ?>js/tabs.js"></script>
+       <script
+           src="<?php echo ADMIN_ASSETS; ?>vendors/lightgallery/js/lightgallery-all.min.js">
+       </script>
+
+       <script src="<?php echo ADMIN_ASSETS; ?>js/light-gallery.js"></script>
 
        <!-- End custom js for this page-->
        </body>

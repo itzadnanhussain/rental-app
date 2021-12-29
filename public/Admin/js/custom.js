@@ -414,6 +414,47 @@ function delete_review(id) {
 }
 
 
+///delete_property
+function delete_property(id) {
+    if (confirm('Are you sure you want to delete this record?')) {
+        $.ajax({
+            type: 'POST',
+            url: 'delete_property_process',
+            data:
+            {
+                'id': id,
+
+            },
+            dataType: 'html',
+            success: function (data) {
+                let res = JSON.parse(data);
+                switch (res.code) {
+                    case 'success':
+                        alert(res.message);
+                        // $('#show').trigger('click');
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 500)
+
+                        break;
+
+                    case 'warning':
+                        alert(res.message);
+                        // setTimeout(function () {
+
+                        // }, 2500)
+                        break;
+
+
+
+                }
+            },
+        });
+
+    }
+}
+
+
 ///show_review_detail
 function show_review_detail(id) { 
         $.ajax({

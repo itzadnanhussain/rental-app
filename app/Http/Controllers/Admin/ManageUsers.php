@@ -76,6 +76,7 @@ class ManageUsers extends Controller
             die;
         } else {
             extract($request->all());
+           
             $postData = array();
             $postData['first_name'] = $first_name;
             $postData['last_name'] = $last_name;
@@ -88,9 +89,13 @@ class ManageUsers extends Controller
             $postData['simple_password'] = $res['enc_text'];
             $postData['user_type'] = $user_type;
             $postData['user_verified'] = $user_verified;
-            $postData['profile_image'] = null;
+            $postData['profile_image'] = '' ;
 
             $last_id = AddNewRecord('tbl_users', $postData);
+            // echo '<pre>';
+            // print_r($last_id);
+            // echo '</pre>';
+            // die;
 
             ///handle profile
             if ($request->hasfile('profile') && $last_id) {

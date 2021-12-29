@@ -47,7 +47,7 @@
 
                             </div>
                             <form class="simple-form"
-                                action="<?php echo SERVER_ROOT_PATH.'login' ?>">
+                                action="<?php echo SERVER_ROOT_PATH.'admin/login' ?>">
 
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-lg" name="email"

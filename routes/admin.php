@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\ManageReview;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| admin Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -28,7 +28,7 @@ use App\Http\Controllers\Admin\ManageReview;
 ///**********************Login Controller**************************/
 ///login page
 Route::get('admin/login', [LoginAdmin::class, 'load_login_page']);
-Route::post('login', [LoginAdmin::class, 'load_login_process']);
+Route::post('admin/login', [LoginAdmin::class, 'load_login_process']);
 
 ///logout
 Route::get('admin/logout', [LoginAdmin::class, 'admin_logout']);
@@ -109,6 +109,14 @@ Route::post('admin/delete_category_process', [ManageCategory::class,'delete_cate
 ///**********************Property Management************************ */
 ///load_property_list
 Route::get('admin/property_list', [ManageProperty::class, 'load_property_list']);
+
+///load_property_profile
+Route::get('admin/property_profile/{property_id}', [ManageProperty::class, 'load_property_profile']);
+
+///delete_property_process
+Route::post('admin/delete_property_process', [ManageProperty::class, 'delete_property_process']);
+
+
 
 ///**********************Booking Management************************ */
 ///load_booking_list
